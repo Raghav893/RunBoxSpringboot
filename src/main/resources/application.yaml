@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/runbox
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  sql:
+    init:
+      mode: always
+  application:
+    name: RunBox
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+security:
+  jwt:
+    secret: "uh6c8ounwzsmCvQkVS0lN0IHbUUGuf0dkfXNBHP1Wyi"
+    access-token-expiration-ms: 900000
+    refresh-token-expiration-ms: 604800000
+springdoc:
+
+  api-docs:
+    version: openapi_3_1
