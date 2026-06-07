@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,13 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableMethodSecurity
 @EnableWebSecurity
-public class springsecurityconfig {
-private final JwtFilter jwtFilter;
-private final CustomUserDetailsService customUserDetailsService;
-private final PasswordEncoder passwordEncoder;
+public class SpringSecurityConfig {
+    private final JwtFilter jwtFilter;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public springsecurityconfig(JwtFilter jwtFilter, PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService) {
+    public SpringSecurityConfig(JwtFilter jwtFilter, PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService) {
         this.jwtFilter = jwtFilter;
         this.passwordEncoder = passwordEncoder;
         this.customUserDetailsService = customUserDetailsService;
