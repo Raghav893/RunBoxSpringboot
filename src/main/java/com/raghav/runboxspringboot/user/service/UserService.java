@@ -58,6 +58,7 @@ public class UserService implements UserDetailsService {
 
         return buildAuthResponse(user);
     }
+    //
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
