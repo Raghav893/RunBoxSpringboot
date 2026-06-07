@@ -1,5 +1,6 @@
 package com.raghav.runboxspringboot.security;
 
+import com.raghav.runboxspringboot.user.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,13 +23,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class springsecurityconfig {
 private final JwtFilter jwtFilter;
-private final UserDetailsService userDetailsService;
+private final CustomUserDetailsService customUserDetailsService;
 private final PasswordEncoder passwordEncoder;
 
-    public springsecurityconfig(JwtFilter jwtFilter, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+
+    public springsecurityconfig(JwtFilter jwtFilter, PasswordEncoder passwordEncoder, CustomUserDetailsService customUserDetailsService) {
         this.jwtFilter = jwtFilter;
-        this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -47,12 +49,13 @@ private final PasswordEncoder passwordEncoder;
                                                 "/swagger-ui.html",
                                                 "/error").permitAll().anyRequest().authenticated()
                 )
+
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(userDetailsService);
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(customUserDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         return daoAuthenticationProvider;
     }
