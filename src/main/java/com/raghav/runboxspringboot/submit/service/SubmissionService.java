@@ -1,5 +1,6 @@
 package com.raghav.runboxspringboot.submit.service;
 
+import com.raghav.runboxspringboot.common.exception.SubmissionNotFoundException;
 import com.raghav.runboxspringboot.security.SecurityUtils;
 import com.raghav.runboxspringboot.submit.dto.SubmissionResponseDTO;
 import com.raghav.runboxspringboot.submit.dto.SubmitRequestDTO;
@@ -9,6 +10,7 @@ import com.raghav.runboxspringboot.submit.repo.SubmissionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class SubmissionService {
@@ -31,6 +33,11 @@ public class SubmissionService {
         return toResponse(submission);
 
     }
+    public SubmissionResponseDTO getSubmissionById(UUID id){
+        return toResponse( submissionRepository.getSubmissionsBySubmissionIdAndUser(id,SecurityUtils.getCurrentUser())
+                .orElseThrow(()->new SubmissionNotFoundException("submission not found")));
+    }
+
 
     private SubmissionResponseDTO toResponse(Submission submission){
 
