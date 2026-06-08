@@ -10,6 +10,8 @@ import com.raghav.runboxspringboot.submit.repo.SubmissionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -37,6 +39,16 @@ public class SubmissionService {
         return toResponse( submissionRepository.getSubmissionsBySubmissionIdAndUser(id,SecurityUtils.getCurrentUser())
                 .orElseThrow(()->new SubmissionNotFoundException("submission not found")));
     }
+
+    public List<SubmissionResponseDTO> getMySubmission(){
+        List<Submission> submissions = submissionRepository.getSubmissionsByUser(SecurityUtils.getCurrentUser());
+        ArrayList<SubmissionResponseDTO> submissionResponseDTOS =new ArrayList<>();
+        for (int i = 0; i < submissions.size(); i++) {
+            submissionResponseDTOS.add(toResponse(submissions.get(i)));
+        }
+        return submissionResponseDTOS;
+    }
+
 
 
     private SubmissionResponseDTO toResponse(Submission submission){

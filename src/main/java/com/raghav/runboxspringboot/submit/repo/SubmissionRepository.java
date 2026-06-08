@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.lang.ScopedValue;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,4 +15,6 @@ import java.util.UUID;
 public interface SubmissionRepository extends JpaRepository<Submission, UUID> {
 
     Optional<Submission> getSubmissionsBySubmissionIdAndUser(UUID submissionId, User user);
+
+    List<Submission> getSubmissionsByUser(User user);
 }
