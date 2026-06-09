@@ -28,6 +28,7 @@ public class SubmissionService {
     public SubmissionResponseDTO submit(SubmitRequestDTO submitRequestDTO){
         Submission submission = Submission.builder()
                 .user(SecurityUtils.getCurrentUser())
+                .sourceCode(submitRequestDTO.getSourceCode())
                 .submittedAt(LocalDateTime.now())
                 .language(submitRequestDTO.getLanguage())
                 .stdin(submitRequestDTO.getStdin())

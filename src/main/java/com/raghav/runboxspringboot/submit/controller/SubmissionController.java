@@ -26,7 +26,7 @@ public class SubmissionController {
         this.submissionService = submissionService;
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/submissions")
     public ResponseEntity<ApiResponse<SubmissionResponseDTO>> submitCode(@Valid @RequestBody SubmitRequestDTO submitRequestDTO) {
         ApiResponse<SubmissionResponseDTO> apiResponse = ApiResponse.<SubmissionResponseDTO>builder()
                 .data(submissionService.submit(submitRequestDTO))
