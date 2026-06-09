@@ -8,6 +8,8 @@ import com.raghav.runboxspringboot.submit.entity.Status;
 import com.raghav.runboxspringboot.submit.entity.Submission;
 import com.raghav.runboxspringboot.submit.repo.SubmissionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class SubmissionService {
     public SubmissionService(SubmissionRepository submissionRepository) {
         this.submissionRepository = submissionRepository;
     }
+    @Transactional(isolation = Isolation.DEFAULT)
     public SubmissionResponseDTO submit(SubmitRequestDTO submitRequestDTO){
         Submission submission = Submission.builder()
                 .user(SecurityUtils.getCurrentUser())
@@ -35,11 +38,13 @@ public class SubmissionService {
         return toResponse(submission);
 
     }
+    @Transactional
     public SubmissionResponseDTO getSubmissionById(UUID id){
         return toResponse( submissionRepository.getSubmissionsBySubmissionIdAndUser(id,SecurityUtils.getCurrentUser())
                 .orElseThrow(()->new SubmissionNotFoundException("submission not found")));
     }
 
+    @Transactional
     public List<SubmissionResponseDTO> getMySubmission(){
         List<Submission> submissions = submissionRepository.getSubmissionsByUser(SecurityUtils.getCurrentUser());
         ArrayList<SubmissionResponseDTO> submissionResponseDTOS =new ArrayList<>();
