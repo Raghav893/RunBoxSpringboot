@@ -48,8 +48,8 @@ public class SubmissionService {
     public List<SubmissionResponseDTO> getMySubmission(){
         List<Submission> submissions = submissionRepository.getSubmissionsByUser(SecurityUtils.getCurrentUser());
         ArrayList<SubmissionResponseDTO> submissionResponseDTOS =new ArrayList<>();
-        for (int i = 0; i < submissions.size(); i++) {
-            submissionResponseDTOS.add(toResponse(submissions.get(i)));
+        for (Submission submission : submissions) {
+            submissionResponseDTOS.add(toResponse(submission));
         }
         return submissionResponseDTOS;
     }
