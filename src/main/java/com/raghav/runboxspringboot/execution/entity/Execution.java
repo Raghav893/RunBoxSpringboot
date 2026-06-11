@@ -2,12 +2,18 @@ package com.raghav.runboxspringboot.execution.entity;
 
 import com.raghav.runboxspringboot.submit.entity.Submission;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "execution_results")
+@Data
+@Builder
+@AllArgsConstructor
 public class Execution {
 
     @Id
@@ -32,4 +38,8 @@ public class Execution {
 
     private Long memoryUsedBytes;
     private LocalDateTime completedAt;
+
+    public Execution() {
+
+    }
 }
