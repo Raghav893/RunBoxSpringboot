@@ -1,5 +1,6 @@
 package com.raghav.runboxspringboot.submit.entity;
 
+import com.raghav.runboxspringboot.execution.entity.Execution;
 import com.raghav.runboxspringboot.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,10 @@ public class Submission {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Language language;
+
+    @OneToOne(mappedBy = "submission")
+    private Execution execution;
+
 
     @Column(nullable = false)
     private String sourceCode;
