@@ -1,6 +1,7 @@
 package com.raghav.runboxspringboot.execution.config;
 
 public enum LanguageConfig {
+    // JAVA  ("eclipse-temurin:21-jdk-alpine",  "Main.java", new String[]{"javac","Main.java"}, new String[]{"java",  "Main"}),
     PYTHON ("python:3.11-slim","code.py",null ,new String[]{"python3","code.py"});
     public final String image;
     public final String filename;
