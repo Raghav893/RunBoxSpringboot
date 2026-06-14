@@ -2,6 +2,7 @@ package com.raghav.runboxspringboot.submit.dto;
 
 import com.raghav.runboxspringboot.submit.entity.Language;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -10,7 +11,7 @@ public class SubmitRequestDTO {
     @NotBlank
     private String sourceCode;
 
-    @NotBlank
+    @NotNull
     private String stdin;
 
     @NonNull
