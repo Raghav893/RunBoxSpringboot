@@ -33,6 +33,7 @@ public class DockerCodeExecutionService {
     private static final long MEMORY_BYTES = 128*1024*1024L;
     private static final long TIMEOUT_SECONDS= 10L;
     private static final String WORKDIR = "/sandbox";
+    private static final int TIMEOUT_EXIT_CODE = -1;
     private record ExecOutput(String stdout, String stderr, int exitCode) {}
 
 
@@ -44,13 +45,13 @@ public class DockerCodeExecutionService {
             dockerClient.startContainerCmd(containerId).exec();
             copySourceCode(containerId, submission.getSourceCode(), config.filename);
             if (config.compileCmd != null) {
-                ExecOutput compileOut = execCommand(containerId, config.compileCmd);
+                ExecOutput compileOut = execCommand(containerId, config.compileCmd, "");
                 if (compileOut.exitCode() != 0) {
                     return buildResult(submission, compileOut, 0L);
                 }
             }
             long start = System.currentTimeMillis();
-            ExecOutput runOut = execCommand(containerId, config.runCmd);
+            ExecOutput runOut = execCommand(containerId, config.runCmd, submission.getStdin());
             long elapsed = System.currentTimeMillis() - start;
 
             return buildResult(submission, runOut, elapsed);
@@ -112,11 +113,12 @@ public class DockerCodeExecutionService {
         }
         return bos.toByteArray();
     }
-    private ExecOutput execCommand(String containerId,String[] cmd )throws Exception{
+    private ExecOutput execCommand(String containerId, String[] cmd, String stdin)throws Exception{
         ExecCreateCmdResponse exec = dockerClient
                 .execCreateCmd(containerId)
                 .withCmd(cmd)
                 .withWorkingDir(WORKDIR)
+                .withAttachStdout(true)
                 .withAttachStderr(true)
                 .withAttachStdin(true)
                 .exec();
@@ -124,9 +126,18 @@ public class DockerCodeExecutionService {
         ByteArrayOutputStream stderr = new ByteArrayOutputStream();
 
 
-        dockerClient.execStartCmd(exec.getId())
+        boolean completed = dockerClient.execStartCmd(exec.getId())
+                .withStdIn(new ByteArrayInputStream((stdin == null ? "" : stdin).getBytes(StandardCharsets.UTF_8)))
                 .exec(new ExecStartResultCallback(stdout, stderr))
                 .awaitCompletion(TIMEOUT_SECONDS, TimeUnit.SECONDS);
+
+        if (!completed) {
+            return new ExecOutput(
+                    stdout.toString(StandardCharsets.UTF_8),
+                    "Execution timed out after " + TIMEOUT_SECONDS + " seconds",
+                    TIMEOUT_EXIT_CODE
+            );
+        }
 
         long exitCode = dockerClient.inspectExecCmd(exec.getId())
                 .exec()
@@ -154,13 +165,4 @@ public class DockerCodeExecutionService {
         result.setCompletedAt(LocalDateTime.now());
         return result;
     }
-/*
- steps left
-    create main execution service class which will run on every submission
-    also seprate execution endpoints
-    save to db
-    implement stdin
-    update submission and
-    also test this code VVVVIMPP
- */
 }
