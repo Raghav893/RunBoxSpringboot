@@ -81,3 +81,13 @@ public class ExecutionWorker {
             log.error("Job failed: {}", e.getMessage());
         }
     }}
+
+/*
+Things left to do
+    more language support
+    AI side service to resolve errors
+    CORS
+    A frontend if needed
+    DockerCompose
+    Ci Cd
+ */
