@@ -8,6 +8,8 @@ import com.raghav.runboxspringboot.submit.dto.SubmitRequestDTO;
 import com.raghav.runboxspringboot.submit.entity.Status;
 import com.raghav.runboxspringboot.submit.entity.Submission;
 import com.raghav.runboxspringboot.submit.repo.SubmissionRepository;
+import com.raghav.runboxspringboot.worker.service.QueueService;
+import com.raghav.runboxspringboot.worker.service.RedisQueueService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +22,12 @@ import java.util.UUID;
 public class SubmissionService {
     private final SubmissionRepository submissionRepository;
     private final ExecutionService executionService;
+    private final RedisQueueService queueService;
 
-
-    public SubmissionService(SubmissionRepository submissionRepository, ExecutionService executionService) {
+    public SubmissionService(SubmissionRepository submissionRepository, ExecutionService executionService, RedisQueueService queueService) {
         this.submissionRepository = submissionRepository;
         this.executionService = executionService;
+        this.queueService = queueService;
     }
 
     //PYTHON COMPILER DONE TESTED WORKING
@@ -40,9 +43,8 @@ public class SubmissionService {
                 .build();
 
         submission = submissionRepository.save(submission);
-        executionService.runSubmission(submission);
+        queueService.enqueue(submission.getSubmissionId());
         return toResponse(submission);
-
     }
     @Transactional
     public SubmissionResponseDTO getSubmissionById(UUID id){
