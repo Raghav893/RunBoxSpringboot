@@ -32,7 +32,7 @@ public class ExecutionWorker {
         if (submissionId == null) {
             return;
         }
-        Submission submission = submissionRepository.getSubmissionsBySubmissionIdAndUser(submissionId, SecurityUtils.getCurrentUser())
+        Submission submission = submissionRepository.getSubmissionsBySubmissionId(submissionId)
                 .orElseThrow(()->new RuntimeException("Submission not found "+ submissionId));
 
         try {

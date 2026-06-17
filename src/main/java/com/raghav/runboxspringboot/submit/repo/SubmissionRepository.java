@@ -17,4 +17,6 @@ public interface SubmissionRepository extends JpaRepository<Submission, UUID> {
     Optional<Submission> getSubmissionsBySubmissionIdAndUser(UUID submissionId, User user);
 
     List<Submission> getSubmissionsByUser(User user);
+
+    Optional<Submission> getSubmissionsBySubmissionId(UUID submissionId);
 }
