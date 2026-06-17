@@ -59,10 +59,15 @@ public class ExecutionWorker {
             Execution result = dockerCodeExecutionService.executionResultGenerator(submission);
             executionRepository.save(result);
 
-            submission.setStatus(Status.COMPLETED);
+            if (result.getExitCode() == -1) {
+                submission.setStatus(Status.TIMEOUT);
+            }
+            else {
+                submission.setStatus(Status.COMPLETED);
+            }
             submissionRepository.save(submission);
+            log.info("Job completed: {} status: {}", submissionId, submission.getStatus());
 
-            log.info("Job completed: {}", submissionId);
 
         }
         catch (TimeoutException e) {                        // ← specific, catches first
