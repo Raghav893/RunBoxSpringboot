@@ -10,3 +10,4 @@ public interface OpenFeignConfig {
     @GetMapping("/aicheck")
     ResponseDTO AiChecker(@RequestBody RequestDTO requestDTO);
 }
+
