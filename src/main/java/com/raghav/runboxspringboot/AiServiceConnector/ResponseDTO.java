@@ -9,6 +9,8 @@ public class ResponseDTO {
     private String stdin;
     private String stdout;
     private String stderr;
-    private String correctCode;
-    private String AiRemarks;
+    private String correctedCode;
+    private boolean hasErrors;
+    private String aiRemarks;
+    private String improvements;
 }
