@@ -1,13 +1,13 @@
 package com.raghav.runboxspringboot.AiServiceConnector;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(url = "https://localhost:8000",name = "AiService")
+@FeignClient(name = "ai-service", url = "${ai.service.url:http://localhost:8000}")
 public interface OpenFeignConfig {
 
-    @GetMapping("/aicheck")
-    ResponseDTO AiChecker(@RequestBody RequestDTO requestDTO);
+    @PostMapping("/aicheck")
+    ResponseDTO checkCode(@RequestBody RequestDTO requestDTO);
 }
 

@@ -41,3 +41,7 @@ springdoc:
 
   api-docs:
     version: openapi_3_1
+
+ai:
+  service:
+    url: http://localhost:8000
