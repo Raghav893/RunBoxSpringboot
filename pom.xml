@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.raghav</groupId>
-    <artifactId>RunBoxSpringboot</artifactId>
+    <artifactId>runbox-springboot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>RunBoxSpringboot</name>
     <description>RunBoxSpringboot</description>
@@ -157,7 +157,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/Raghav893/RunBoxSpringboot</url>
+            <url>https://maven.pkg.github.com/raghav893/runboxspringboot</url>
 
         </repository>
 
