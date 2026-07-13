@@ -41,6 +41,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.github.docker-java</groupId>
@@ -152,6 +153,15 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/Raghav893/REPO</url>
+        </repository>
+    </distributionManagement>
+
+
 
     <build>
         <plugins>
