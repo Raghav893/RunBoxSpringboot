@@ -157,9 +157,12 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/Raghav893/REPO</url>
+            <url>https://maven.pkg.github.com/Raghav893/RunBoxSpringboot</url>
+
         </repository>
+
     </distributionManagement>
+
 
 
 
